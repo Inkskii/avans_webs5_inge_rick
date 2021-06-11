@@ -10,7 +10,18 @@ let app = express();
 
 //Mongoose Connection
 let mongoose = require('mongoose')
-mongoose.connect(`mongodb://${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_DATABASE}`, {useNewUrlParser: true, useUnifiedTopology: true});
+
+
+const MongoClient = require('mongodb').MongoClient;
+
+const client = new MongoClient("" + process.env.DB_URL, { useNewUrlParser: true, useUnifiedTopology: true });
+client.connect(err => {
+  const collection = client.db("test").collection("devices");
+  // perform actions on the collection object
+  client.close();
+});
+
+//mongoose.connect('mongodb://localhost:27017/webs5_IR', {useNewUrlParser: true, useUnifiedTopology: true});
 
 //Models
 require('./models/user');
