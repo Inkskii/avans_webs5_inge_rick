@@ -14,7 +14,7 @@ let mongoose = require('mongoose')
 
 const MongoClient = require('mongodb').MongoClient;
 
-const client = new MongoClient("" + process.env.DB_URL, { useNewUrlParser: true, useUnifiedTopology: true });
+const client = new MongoClient(`${process.env.DB_PREFIX}/${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_URL}/${process.env.DB_DATABASE}?${process.env.DB_PARAMS}`, { useNewUrlParser: true, useUnifiedTopology: true });
 client.connect(err => {
   const collection = client.db("test").collection("devices");
   // perform actions on the collection object
