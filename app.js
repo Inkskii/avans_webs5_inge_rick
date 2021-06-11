@@ -1,4 +1,5 @@
 //Requires
+require('dotenv').config();
 let express = require('express');
 let path = require('path');
 const passport = require('passport');
@@ -9,7 +10,7 @@ let app = express();
 
 //Mongoose Connection
 let mongoose = require('mongoose')
-mongoose.connect('mongodb://localhost:27017/webs5_IR', {useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect(`mongodb://${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_DATABASE}`, {useNewUrlParser: true, useUnifiedTopology: true});
 
 //Models
 require('./models/user');
