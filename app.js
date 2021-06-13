@@ -9,21 +9,13 @@ let middleware = require('./middleware/roleMiddleware');
 let app = express();
 
 
-const MongoClient = require('mongodb').MongoClient;
-const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}/${process.env.DB_DATABASE}?retryWrites=true&w=majority`;
-const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-client.connect(err => {
-  const collection = client.db(process.env.DB_DATABASE);
-  // perform actions on the collection object
-  client.close();
-});
-
-
+//const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}/${process.env.DB_DATABASE}?retryWrites=true&w=majority`;
+const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}/${process.env.DB_DATABASE}?authSource=admin&replicaSet=atlas-l4qtyj-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true`
 //Mongoose Connection
 let mongoose = require('mongoose')
 mongoose.connect(uri);
 //mongoose.connect(`mongodb://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}/${process.env.DB_DATABASE}`, {useNewUrlParser: true, useUnifiedTopology: true});
-
+console.log(uri)
 //Models
 require('./models/user');
 require('./auth/auth');
