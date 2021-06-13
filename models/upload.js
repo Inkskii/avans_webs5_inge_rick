@@ -3,6 +3,8 @@ let imagga = require('../external/imaggaConnection')
 
 console.log('Initializing Upload Schema');
 
+const Target = mongoose.model('Target');
+
 let uploadSchema = new mongoose.Schema({
     uri: { type: String, required: true, unique: true },
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
@@ -21,17 +23,41 @@ uploadSchema.pre(
         const tags = await imagga.getTags(this.uri);
         this.tags = tags;
 
-        var tagMap = new Map();
+        var uploadTags = [];
         var parsedJSON = JSON.parse(this.tags);
 
         //if upload tags ongeveer hetzelfde als target tags
         for(i = 0; i < 10; i++ ) {
-            tagMap.set(parsedJSON.result.tags[i].tag.en, parsedJSON.result.tags[i].confidence)
+            uploadTags.push(parsedJSON.result.tags[i].tag.en)
         }
-        console.log(tagMap);
+        var targetTags = [];
 
+        var target = Target.findById(this.target, function (err, docs){
+            if (err) {
+                return res.json('The Target could not be found, try again.')
+            }
+        });
 
-        //Set accepted true
+        target.then(data => {
+            parsedJSON = JSON.parse(data.tags);
+            for(i = 0; i < 10; i++ ) {
+                targetTags.push(parsedJSON.result.tags[i].tag.en)
+            }
+
+            k = 0;
+
+            targetTags.forEach(target => {
+                if(uploadTags.includes(target)){
+                    k++;
+                }
+            })
+
+            if(k > 4) {
+                this.completed = true;
+            }
+            
+        });
+
         next()
     }
 );
