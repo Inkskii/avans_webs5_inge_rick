@@ -9,7 +9,7 @@ let middleware = require('./middleware/roleMiddleware');
 let app = express();
 
 
-//const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}/${process.env.DB_DATABASE}?retryWrites=true&w=majority`;
+
 const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}/${process.env.DB_DATABASE}?authSource=admin&replicaSet=atlas-l4qtyj-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true`
 //Mongoose Connection
 let mongoose = require('mongoose')
@@ -36,8 +36,7 @@ function handleError(req, res, statusCode, message){
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.listen(27017, () => {
-    console.log("Server running on port 27017");
+app.listen(process.env.PORT || 27017, () => {
 });
 
 //Routes for User
