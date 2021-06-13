@@ -21,7 +21,7 @@ client.connect(err => {
 
 //Mongoose Connection
 let mongoose = require('mongoose')
-mongoose.connect(client);
+mongoose.connect(uri);
 //mongoose.connect(`mongodb://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}/${process.env.DB_DATABASE}`, {useNewUrlParser: true, useUnifiedTopology: true});
 
 //Models
