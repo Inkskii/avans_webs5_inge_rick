@@ -45,6 +45,8 @@ app.use('/targets', passport.authenticate('jwt', { session: false }), require('.
 app.use('/uploads', passport.authenticate('jwt', { session: false }), require('./routes/uploads')(handleError))
 
 //Routes for Admin
-app.use('/users', passport.authenticate('jwt', { session: false }), require('./routes/users')(handleError));
+app.use('/users', passport.authenticate('jwt', { session: false }), middleware.authenticateRole(['admin']), require('./routes/users')(handleError));
+app.use('/targets', passport.authenticate('jwt', { session: false }), middleware.authenticateRole(['admin']), require('./routes/targets')(handleError));
+
 
 module.exports = app;
