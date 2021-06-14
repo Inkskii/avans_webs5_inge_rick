@@ -10,7 +10,7 @@ let uploadSchema = new mongoose.Schema({
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     target: { type: mongoose.Schema.Types.ObjectId, ref: 'Target' },
     tags: { type: String },
-    completed: { type: Boolean, default: false},
+    completed: { type: Boolean},
 }, {
     toJSON: { virtuals: true },
     toObject: { virtuals: true }
@@ -20,6 +20,7 @@ uploadSchema.pre(
     'save',
     async function (next) {
         const upload = this;
+        this.completed = false;
         const tags = await imagga.getTags(this.uri);
         this.tags = tags;
 

@@ -169,7 +169,7 @@ describe('User', () => {
             // in other words,
             // the res object should have a status of 201
             res.should.have.status(200);
-
+            done();
             // follow up with login
             chai.request(server)
               .post('/login')

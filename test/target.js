@@ -48,7 +48,6 @@ describe('Target', () => {
                     // in other words,
                     // the res object should have a status of 201
                     res.should.have.status(200);
-
                     // follow up with login
 
                     chai.request(server)
